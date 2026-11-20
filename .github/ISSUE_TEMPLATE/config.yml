@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: The language, the parser or the command line
+    url: https://github.com/Rabbinatix/flow-pseudocode/issues
+    about: Spec questions, grammar proposals and rfpc bugs go in the flow-pseudocode repo

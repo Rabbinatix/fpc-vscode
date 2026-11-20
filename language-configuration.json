@@ -1,0 +1,19 @@
+{
+  "comments": { "lineComment": "--" },
+  "brackets": [["{", "}"], ["[", "]"], ["(", ")"]],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string", "comment"] }
+  ],
+  "surroundingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""]],
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(IF\\b.*\\bTHEN|ELSE( IF\\b.*\\bTHEN)?|MATCH\\b.*|CASE\\b.*|FOR\\b.*|REPEAT\\b.*\\bTIMES|WHILE\\b.*|TRY|CATCH\\b.*|FINALLY|RETRY\\b.*|ON (SUCCESS|FAILURE)\\b.*|PARALLEL|BRANCH|STEP\\b.*)\\s*(--.*)?$",
+    "decreaseIndentPattern": "^\\s*(END\\b|ELSE\\b|CASE\\b|CATCH\\b|FINALLY\\b|BRANCH\\b|ON (SUCCESS|FAILURE)\\b)"
+  },
+  "folding": {
+    "markers": { "start": "^\\s*(IF|MATCH|FOR|REPEAT|WHILE|TRY|RETRY|PARALLEL|STEP)\\b", "end": "^\\s*END\\b" }
+  },
+  "wordPattern": "[A-Za-z_$][A-Za-z0-9_$]*(-[A-Z0-9]+)*"
+}

@@ -1,0 +1,333 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Flow Pseudocode",
+  "scopeName": "source.fpc",
+  "fileTypes": [
+    "fpc"
+  ],
+  "firstLineMatch": "^\\s*FPC\\s+\\d+\\.\\d+",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#header"
+    },
+    {
+      "include": "#params"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#key"
+    },
+    {
+      "include": "#call"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#function"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#operator"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.double-dash.fpc",
+      "match": "--.*$"
+    },
+    "header": {
+      "patterns": [
+        {
+          "match": "^\\s*(FPC)\\s+(\\d+(?:\\.\\d+)*)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.directive.fpc"
+            },
+            "2": {
+              "name": "constant.numeric.version.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(VERSION)\\s+(\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.fpc"
+            },
+            "2": {
+              "name": "constant.numeric.version.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(ON)\\s+(REQUEST)\\s+(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\\s+(/\\S*)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.fpc"
+            },
+            "2": {
+              "name": "keyword.other.fpc"
+            },
+            "3": {
+              "name": "keyword.other.http-method.fpc"
+            },
+            "4": {
+              "name": "string.unquoted.path.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(SYSTEM)\\s+([A-Za-z_$][A-Za-z0-9_$.-]*|\"[^\"]*\")",
+          "captures": {
+            "1": {
+              "name": "keyword.other.fpc"
+            },
+            "2": {
+              "name": "entity.name.type.system.fpc"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(STEP)\\s+(\\S+)(?:\\s+(\\\"[^\\\"]*\\\"))?(?:\\s+(IN)\\s+([A-Za-z_$][A-Za-z0-9_$.-]*|\"[^\"]*\"))?",
+          "captures": {
+            "1": {
+              "name": "keyword.other.step.fpc"
+            },
+            "2": {
+              "name": "entity.name.section.key.fpc"
+            },
+            "3": {
+              "name": "string.quoted.double.fpc"
+            },
+            "4": {
+              "name": "keyword.control.fpc"
+            },
+            "5": {
+              "name": "entity.name.type.system.fpc"
+            }
+          }
+        }
+      ]
+    },
+    "params": {
+      "begin": "^\\s*(INPUT|OUTPUT)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.fpc"
+        }
+      },
+      "end": "$",
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "match": "\\b(string|number|integer|boolean|null|any|object|array|enum)\\b",
+          "name": "support.type.fpc"
+        },
+        {
+          "match": "([A-Za-z_$][A-Za-z0-9_$]*|\\d+)(\\?)?(?=\\s*:)",
+          "captures": {
+            "1": {
+              "name": "variable.parameter.fpc"
+            },
+            "2": {
+              "name": "keyword.operator.optional.fpc"
+            }
+          }
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#punctuation"
+        },
+        {
+          "match": "\\|",
+          "name": "keyword.operator.union.fpc"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.fpc",
+      "begin": "[\"“”]",
+      "end": "[\"“”]|$",
+      "patterns": [
+        {
+          "name": "constant.character.escape.fpc",
+          "match": "\\\\(?:[\\\"\\\\nrt]|u[0-9A-Fa-f]{4})"
+        }
+      ]
+    },
+    "key": {
+      "name": "entity.name.tag.key.fpc",
+      "match": "\\b(?:SYS|FLOW|CONTRACT|LOGIC|NODE|TEST-DATA|EXPECTED|DATA-BP|RESPONSE-BP|TEST-CASE|SCENARIO|REQ|RUN|COMP|TICKET)(?:-[A-Z0-9]+)+(?:/[A-Za-z0-9_.-]+)?"
+    },
+    "call": {
+      "patterns": [
+        {
+          "match": "\\b(CALL)\\s+(LOGIC)\\s+(\\S+)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.call.fpc"
+            },
+            "2": {
+              "name": "keyword.other.fpc"
+            },
+            "3": {
+              "name": "entity.name.tag.key.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(CALL)\\s+([A-Za-z_$][A-Za-z0-9_$.-]*|\"[^\"]*\")\\s+(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\\s+(/\\S*)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.call.fpc"
+            },
+            "2": {
+              "name": "entity.name.type.system.fpc"
+            },
+            "3": {
+              "name": "keyword.other.http-method.fpc"
+            },
+            "4": {
+              "name": "string.unquoted.path.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(CALL)\\s+([A-Za-z_$][A-Za-z0-9_$.-]*|\"[^\"]*\")\\s+([A-Za-z_$][A-Za-z0-9_$.:-]*|\\\"[^\\\"]*\\\")",
+          "captures": {
+            "1": {
+              "name": "keyword.other.call.fpc"
+            },
+            "2": {
+              "name": "entity.name.type.system.fpc"
+            },
+            "3": {
+              "name": "entity.name.function.operation.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(EMIT)\\s+([A-Za-z_$][A-Za-z0-9_$.-]*|\"[^\"]*\")\\s+([A-Za-z_$][A-Za-z0-9_$.:-]*|\\\"[^\\\"]*\\\")",
+          "captures": {
+            "1": {
+              "name": "keyword.other.emit.fpc"
+            },
+            "2": {
+              "name": "entity.name.type.system.fpc"
+            },
+            "3": {
+              "name": "entity.name.function.event.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(WAIT)\\b(?:\\s+([0-9.]+)\\s+(ms|s|m|h)\\b)?",
+          "captures": {
+            "1": {
+              "name": "keyword.control.fpc"
+            },
+            "2": {
+              "name": "constant.numeric.fpc"
+            },
+            "3": {
+              "name": "keyword.other.unit.fpc"
+            }
+          }
+        },
+        {
+          "match": "\\b(FAIL)\\s+(\\d{3}|[A-Z][A-Z0-9_]*)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.fpc"
+            },
+            "2": {
+              "name": "constant.other.error-code.fpc"
+            }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(IF|THEN|ELSE|END|MATCH|CASE|FOR|EACH|IN|FROM|TO|REPEAT|TIMES|WHILE|DO|TRY|CATCH|FINALLY|RETRY|BACKOFF|AS|ON|SUCCESS|FAILURE|PARALLEL|BRANCH|WAIT|RETURN|FAIL|BREAK|CONTINUE)\\b",
+          "name": "keyword.control.fpc"
+        },
+        {
+          "match": "\\b(SET|LOG|EMIT|CALL|WITH|HEADERS|STEP|KEY|VERSION|REVISION|SYSTEM|REQUEST|EVENT|SCHEDULE|INPUT|OUTPUT|FPC|FLOW|LOGIC)\\b",
+          "name": "keyword.other.fpc"
+        },
+        {
+          "match": "\\b(AND|OR|NOT|IS|EMPTY)\\b",
+          "name": "keyword.operator.logical.fpc"
+        },
+        {
+          "match": "\\b(TRUE|FALSE|NULL|true|false|null)\\b",
+          "name": "constant.language.fpc"
+        }
+      ]
+    },
+    "function": {
+      "match": "\\b(default|exists|found|compare|get|set|remove|merge|transform|template|format|concat|contains|startsWith|endsWith|trim|lower|upper|length|replace|split|join|regexMatch|len|at|append|sum|sortBy|map|filter|isEmail|isType|matchesShape|inRange|matches|passwordOk|checkRequired|checkEmail|checkType|checkShape|checkRange|checkRegex|checkPassword|toString|toNumber|isNumeric|toBoolean|parseJson|now|uuid|random|typeOf|round|floor|ceil|abs|min|max|power|sqrt|substring|indexOf|padStart|padEnd|base64Encode|base64Decode|urlEncode|urlDecode|keys|values|entries|slice|reverse|unique|itemIndex|flatten|parseDate|formatDate|addTime|timeBetween|dateParts|makeDate|startOf|endOf|find|some|every|first|last|groupBy|average|clamp|formatNumber|hash|hmac|customCode)(?=\\()",
+      "name": "support.function.fpc"
+    },
+    "number": {
+      "match": "\\b\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b",
+      "name": "constant.numeric.fpc"
+    },
+    "operator": {
+      "patterns": [
+        {
+          "match": "←|<-",
+          "name": "keyword.operator.assignment.fpc"
+        },
+        {
+          "match": "≠|!=|<>|≤|<=|≥|>=|==|=|<|>",
+          "name": "keyword.operator.comparison.fpc"
+        },
+        {
+          "match": "[+\\-*/%×÷]",
+          "name": "keyword.operator.arithmetic.fpc"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "[{}]",
+          "name": "punctuation.definition.block.fpc"
+        },
+        {
+          "match": "[\\[\\]()]",
+          "name": "punctuation.definition.brackets.fpc"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.fpc"
+        },
+        {
+          "match": "\\.",
+          "name": "punctuation.accessor.fpc"
+        }
+      ]
+    }
+  }
+}

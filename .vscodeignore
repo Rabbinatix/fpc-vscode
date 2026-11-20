@@ -1,0 +1,17 @@
+# what stays out of the .vsix: only the bundle (dist/*.js), the grammar files, the icon, the docs and the licence go in
+.github/**
+.vscode/**
+src/**
+test/**
+scripts/**
+node_modules/**
+**/*.map
+**/*.ts
+tsconfig.json
+vitest.config.ts
+.editorconfig
+.gitignore
+package-lock.json
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+*.vsix

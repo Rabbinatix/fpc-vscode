@@ -1,0 +1,111 @@
+{
+  "name": "flow-pseudocode",
+  "displayName": "Flow Pseudocode (FPC)",
+  "description": "Flow Pseudocode (FPC) support: highlighting, errors as you type, format on save, and the cheat sheet for AI assistants.",
+  "version": "1.0.0",
+  "publisher": "rabbinatix",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "homepage": "https://rabbinatix.com/guide/pseudocode",
+  "bugs": {
+    "url": "https://github.com/Rabbinatix/fpc-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rabbinatix/fpc-vscode.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters"
+  ],
+  "keywords": [
+    "pseudocode",
+    "fpc",
+    "flow pseudocode",
+    "ai",
+    "validator",
+    "formatter",
+    "api contracts"
+  ],
+  "main": "./dist/extension.js",
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "fpc",
+        "aliases": [
+          "Flow Pseudocode",
+          "FPC",
+          "fpc"
+        ],
+        "extensions": [
+          ".fpc"
+        ],
+        "firstLine": "^\\s*FPC\\s+\\d+\\.\\d+",
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fpc",
+        "scopeName": "source.fpc",
+        "path": "./syntaxes/fpc.tmLanguage.json"
+      },
+      {
+        "scopeName": "markdown.fpc.codeblock",
+        "path": "./syntaxes/fpc.markdown.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.fpc": "fpc"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "fpc.copyCheatSheet",
+        "title": "Copy cheat sheet for an AI assistant",
+        "category": "FPC"
+      }
+    ],
+    "configuration": {
+      "title": "Flow Pseudocode (FPC)",
+      "properties": {
+        "fpc.diagnostics.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show errors and warnings in FPC files as you type."
+        },
+        "fpc.diagnostics.maxFileSizeKb": {
+          "type": "number",
+          "default": 500,
+          "minimum": 1,
+          "description": "Don't check FPC files larger than this many kilobytes (keeps the editor responsive)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run build",
+    "package": "npm run check && npx --yes @vscode/vsce@3 package",
+    "release:guard": "node scripts/release-guard.mjs",
+    "publish:vscode": "npm run release:guard && npm run package && npx --yes @vscode/vsce@3 publish --packagePath flow-pseudocode-$npm_package_version.vsix",
+    "publish:openvsx": "npm run release:guard && npm run package && npx --yes ovsx@0.10 publish flow-pseudocode-$npm_package_version.vsix"
+  },
+  "devDependencies": {
+    "@rabbinatix/flow-pseudocode": "^1.1.0",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "1.80.0",
+    "esbuild": "^0.25.0",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
+  }
+}
